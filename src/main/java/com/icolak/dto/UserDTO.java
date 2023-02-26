@@ -1,5 +1,6 @@
 package com.icolak.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.icolak.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ public class UserDTO {
 
     @NotBlank
     @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,}")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passWord;
 
     @NotNull
