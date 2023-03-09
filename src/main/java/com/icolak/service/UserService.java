@@ -1,6 +1,7 @@
 package com.icolak.service;
 
 import com.icolak.dto.UserDTO;
+import com.icolak.exception.TicketingProjectException;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService  {
     void save(UserDTO user);
 //    void deleteByUserName(String username);
     UserDTO update(UserDTO user);
-    void delete(String username);
+    void delete(String username) throws TicketingProjectException;
     List<UserDTO> listAllByRole(String role);
 
 }

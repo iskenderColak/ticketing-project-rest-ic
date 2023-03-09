@@ -4,6 +4,7 @@ import com.icolak.dto.ProjectDTO;
 import com.icolak.dto.TaskDTO;
 import com.icolak.dto.UserDTO;
 import com.icolak.entity.User;
+import com.icolak.exception.TicketingProjectException;
 import com.icolak.mapper.UserMapper;
 import com.icolak.repository.UserRepository;
 import com.icolak.service.KeycloakService;
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
+    public void delete(String username) throws TicketingProjectException {
 
         User user = userRepository.findByUserNameAndIsDeleted(username, false);
 
@@ -90,6 +91,8 @@ public class UserServiceImpl implements UserService {
             user.setUserName(user.getUserName() + "-" + user.getId());  // harold@manager.com-2
             userRepository.save(user);
             keycloakService.delete(username);
+        } else {
+            throw new TicketingProjectException("User can not be deleted");
         }
 
     }
