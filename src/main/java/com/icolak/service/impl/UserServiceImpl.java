@@ -6,6 +6,7 @@ import com.icolak.dto.UserDTO;
 import com.icolak.entity.User;
 import com.icolak.mapper.UserMapper;
 import com.icolak.repository.UserRepository;
+import com.icolak.service.KeycloakService;
 import com.icolak.service.ProjectService;
 import com.icolak.service.TaskService;
 import com.icolak.service.UserService;
@@ -22,12 +23,14 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final KeycloakService keycloakService;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, @Lazy ProjectService projectService, @Lazy TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, @Lazy ProjectService projectService, @Lazy TaskService taskService, KeycloakService keycloakService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.keycloakService = keycloakService;
     }
 
     @Override
@@ -50,6 +53,8 @@ public class UserServiceImpl implements UserService {
         User obj = userMapper.convertToEntity(user);
 
         userRepository.save(obj);
+
+        keycloakService.userCreate(user);
 
     }
 
@@ -84,6 +89,7 @@ public class UserServiceImpl implements UserService {
             user.setIsDeleted(true);
             user.setUserName(user.getUserName() + "-" + user.getId());  // harold@manager.com-2
             userRepository.save(user);
+            keycloakService.delete(username);
         }
 
     }
