@@ -1,5 +1,6 @@
 package com.icolak.service.impl;
 
+import com.icolak.annotation.DefaultExceptionMessage;
 import com.icolak.dto.ProjectDTO;
 import com.icolak.dto.TaskDTO;
 import com.icolak.dto.UserDTO;
@@ -82,6 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @DefaultExceptionMessage(defaultMessage = "Failed to delete user")
     public void delete(String username) throws TicketingProjectException {
 
         User user = userRepository.findByUserNameAndIsDeleted(username, false);

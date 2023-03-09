@@ -2,6 +2,7 @@ package com.icolak.controller;
 
 import com.icolak.dto.ResponseWrapper;
 import com.icolak.dto.UserDTO;
+import com.icolak.exception.TicketingProjectException;
 import com.icolak.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -55,7 +56,7 @@ public class UserController {
     @DeleteMapping("/{username}")
     @RolesAllowed("Admin")
     @Operation(summary = "Delete user")
-    public ResponseEntity<ResponseWrapper> deleteUser(@PathVariable("username") String username) {
+    public ResponseEntity<ResponseWrapper> deleteUser(@PathVariable("username") String username) throws TicketingProjectException {
         userService.delete(username);
         return ResponseEntity.ok(new ResponseWrapper("User is successfully deleted", HttpStatus.OK));
     }
